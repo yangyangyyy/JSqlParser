@@ -1469,7 +1469,7 @@ Function Function():
     	// workaround for replace(string) function (name clash with mysql REPLACE expression)
 	    <K_REPLACE> { funcName = "REPLACE"; }
     ) [ "." tmp=RelObjectName() { funcName+= "." + tmp; } ["." tmp=RelObjectName() { funcName+= "." + tmp; }]]
-    "(" [ [<K_DISTINCT> { retval.setDistinct(true); } | <K_ALL> { retval.setAllColumns(true); }] (expressionList=SimpleExpressionList() | "*" { retval.setAllColumns(true); }) ] ")"
+    "(" [ [<K_DISTINCT> { retval.setDistinct(true); }] (expressionList=FunctionArgumentsList() | "*" { retval.setAllColumns(true); }) ] ")"
     
     ["}"]
     { 
@@ -1479,6 +1479,20 @@ Function Function():
     }
 }
 
+ExpressionList FunctionArgumentsList():
+{
+	ExpressionList retval = new ExpressionList();
+	List expressions = new ArrayList();
+	Expression expr = null;
+}
+{
+    (LOOKAHEAD(Condition()) expr=Condition() | expr=SimpleExpression()) { expressions.add(expr); }
+    ("," (LOOKAHEAD(Condition()) expr=Condition() | expr=SimpleExpression()) { expressions.add(expr); })*
+	{
+		retval.setExpressions(expressions);
+		return retval;
+	}
+}
 
 
 SubSelect SubSelect():

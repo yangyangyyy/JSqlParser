@@ -634,6 +634,12 @@ public class SelectTest extends TestCase {
 	      parserManager.parse( new StringReader( statement ) );
 	}
 
+	public void testSelectIfStatement() throws JSQLParserException {
+		String statement = "SELECT IF(t1.col1 > 0, t1.col1, t1.col2) AS r FROM t1";
+		Statement parsed = parserManager.parse(new StringReader(statement));
+		assertEquals(statement, parsed.toString());
+	}
+
 	public static void main(String[] args) {
 		junit.swingui.TestRunner.run(SelectTest.class);
 	}
