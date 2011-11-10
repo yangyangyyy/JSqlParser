@@ -1486,14 +1486,13 @@ ExpressionList FunctionArgumentsList():
 	Expression expr = null;
 }
 {
-    (LOOKAHEAD(Condition()) expr=Condition() | expr=SimpleExpression()) { expressions.add(expr); }
-    ("," (LOOKAHEAD(Condition()) expr=Condition() | expr=SimpleExpression()) { expressions.add(expr); })*
+    (LOOKAHEAD(Expression()) expr=Expression() | expr=SimpleExpression()) { expressions.add(expr); }
+    ("," (LOOKAHEAD(Expression()) expr=Expression() | expr=SimpleExpression()) { expressions.add(expr); })*
 	{
 		retval.setExpressions(expressions);
 		return retval;
 	}
 }
-
 
 SubSelect SubSelect():
 {
