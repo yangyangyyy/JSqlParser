@@ -101,9 +101,9 @@ public class Table implements FromItem, MultiPartName {
 
         if (schemaName != null) {
             fqn += schemaName;
-        }
         if (!fqn.isEmpty()) {
             fqn += ".";
+        }
         }
 
         if (name != null) {
